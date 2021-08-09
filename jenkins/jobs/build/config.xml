@@ -1,0 +1,58 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@2.41">
+  <actions>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@1.9.1"/>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@1.9.1">
+      <jobProperties/>
+      <triggers/>
+      <parameters/>
+      <options/>
+    </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
+  </actions>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>repo</name>
+          <description>Add git repo link</description>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.93">
+    <script>pipeline {
+    agent any
+    stages {
+        stage(&quot;Cleanup&quot;) {
+            steps {
+                deleteDir()
+            }
+        }
+        stage(&quot;Clone repo&quot;) {
+            steps {
+                script {
+                    repo = params.repo
+                    sh &apos;git clone $repo&apos;
+                }
+            }
+        }
+
+        stage(&quot;Build docker image&quot;) {
+            steps {
+                dir(&quot;draft/app&quot;) {
+                    script {
+                        docker.build(&quot;consul-app:latest&quot;)
+                    }
+                }
+            }
+        }
+    }
+}</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>

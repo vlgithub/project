@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Consul KV Operations</title>
+</head>
+<body>
+<h1>Consul KV Operations</h1>
+<form name="Input" action="{{ url_for('process_input') }}" method="post">
+    <label for="key">Enter Key</label>
+    <input name="key" type="text">
+    <label for="value">Enter Value</label>
+    <input name="value" type="text">
+    <label for="action">Enter URL</label>
+    <select name="action">
+	<option value="get">Get Value</option>
+        <option value="update">Insert Key/Value</option>
+        <option value="update">Update Value</option>        
+    </select>
+    <input type="submit" value="Submit">
+</form>
