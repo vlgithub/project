@@ -42,7 +42,7 @@
 
         stage(&quot;Build docker image&quot;) {
             steps {
-                dir(&quot;draft/app&quot;) {
+                dir(&quot;project/app&quot;) {
                     script {
                         docker.build(&quot;consul-app:latest&quot;)
                     }

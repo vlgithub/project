@@ -7,7 +7,11 @@ log_message() {
     echo ""
 }
 
-which docker || {log_message "Docker is not installed. Please install it before running script" && exit 1}
+if ! command -v docker &> /dev/null
+then
+    echo "docker could not be found. Please install it first"
+    exit
+fi
 log_message "Pulling Consul image"
 docker pull consul
 log_message "Starting Consul server container"
